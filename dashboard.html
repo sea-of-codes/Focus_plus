@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="theme-default" onload="initDashboard()">
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard">
+        <div class="board-container">
+            <!-- Hero Rectangle -->
+            <div class="rectangle rectangle-hero">
+                <div class="hero-title">Smart Dashboard</div>
+                <div class="description-text">Your personalized workspace for productivity and focus</div>
+                <button class="btn-auth" onclick="showWelcome()">Explore Features</button>
+            </div>
+
+            <!-- Statistics Rectangle -->
+            <div class="rectangle rectangle-statistic">
+                <div class="attention-stats">
+                    <div class="section-title">Statistics</div>
+                    <div id="statsContent">
+                        <div style="text-align: center; opacity: 0.7;">
+                            <div style="font-size: 2rem; margin-bottom: 10px;">📊</div>
+                            <div>Start a focus session to see your attention statistics here</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Rectangle -->
+            <div class="rectangle rectangle-analytics">
+                <div class="analytics-header">
+                    <h3 class="analytics-title">Analytics</h3>
+                    <button class="analytics-clear-btn" onclick="clearAnalytics()" style="display: none;">Clear</button>
+                </div>
+                <div id="analyticsContent">
+                    <div class="analytics-empty">
+                        <div class="analytics-empty-icon">📈</div>
+                        <div class="analytics-empty-text">Complete focus sessions to see saved reports here</div>
+                    </div>
+                    <div id="savedReports" style="display: none;">
+                        <!-- Saved reports will be inserted here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Rectangle -->
+            <div class="rectangle rectangle-profile">
+                <div class="profile-card" id="profileCard">
+                    <!-- Profile content will be inserted here -->
+                </div>
+            </div>
+
+            <!-- Study Focus Block -->
+            <div class="rectangle rectangle-study">
+                <div class="study-container">
+                    <div class="section-title">Activity Detection</div>
+                    <div class="camera-view" id="cameraContainer">
+                        <video id="cameraVideo" style="display: none; width: 100%; height: 100%; object-fit: cover; border-radius: 15px;" autoplay muted playsinline></video>
+                        <canvas id="cameraCanvas" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 15px;"></canvas>
+                        <div class="attention-overlay" id="attentionStatus"></div>
+                        <div class="camera-content" id="cameraPlaceholder">
+                            <div style="font-size: 2rem; margin-bottom: 10px;">📹</div>
+                            <div style="font-size: 16px;">Camera View</div>
+                            <div style="font-size: 14px;">Click Start to begin attention detection</div>
+                        </div>
+                    </div>
+                    <div class="focus-timer">
+                        <div class="timer-display" id="timerDisplay">02:00</div>
+                        <div class="timer-controls">
+                            <button class="btn-timer" id="startBtn" onclick="startTimer()">Start</button>
+                            <button class="btn-timer" id="pauseBtn" onclick="pauseTimer()" disabled>Pause</button>
+                            <button class="btn-timer" id="resetBtn" onclick="resetTimer()">Reset</button>
+                            <button class="btn-timer" onclick="openTimerSettings()">Settings</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Theme Customization Rectangle -->
+            <div class="rectangle rectangle-theme">
+                <div class="section-title">Themes</div>
+                <div class="theme-selector">
+                    <div class="theme-option theme-default active" data-theme="theme-default" onclick="changeTheme(this)" title="Default"></div>
+                    <div class="theme-option theme-pinkorange" data-theme="theme-pinkorange" onclick="changeTheme(this)" title="Pink Orange"></div>
+                    <div class="theme-option theme-olive" data-theme="theme-olive" onclick="changeTheme(this)" title="Olive Green"></div>
+                    <div class="theme-option theme-dark" data-theme="theme-dark" onclick="changeTheme(this)" title="Dark"></div>
+                </div>
+            </div>
+
+            <!-- Task Scheduler Rectangle -->
+            <div class="rectangle rectangle-tasks">
+                <div class="task-scheduler">
+                    <div class="task-header">
+                        <div class="section-title">Task Scheduler</div>
+                        <button class="btn-add-task" onclick="openTaskModal()">Add Task</button>
+                    </div>
+                    <ul id="task-list">
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Task Modal -->
+    <div class="modal" id="taskModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('taskModal')">&times;</button>
+            <h3>Add New Task</h3>
+            <div class="form-group">
+                <label for="taskName">Task Name</label>
+                <input type="text" id="taskName" placeholder="Enter task description">
+            </div>
+            <div class="form-group">
+                <label for="taskDate">Due Date</label>
+                <input type="date" id="taskDate">
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-auth btn-secondary" onclick="closeModal('taskModal')">Cancel</button>
+                <button class="btn-auth" onclick="addTask()">Add Task</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Timer Settings Modal -->
+    <div class="modal" id="timerModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('timerModal')">&times;</button>
+            <h3>Timer Settings</h3>
+            <div class="form-group">
+                <label for="timerHours">Hours (0-24)</label>
+                <input type="number" id="timerHours" min="0" max="24" value="0">
+            </div>
+            <div class="form-group">
+                <label for="timerMinutes">Minutes (0-59)</label>
+                <input type="number" id="timerMinutes" min="0" max="59" value="25">
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-auth btn-secondary" onclick="closeModal('timerModal')">Cancel</button>
+                <button class="btn-auth" onclick="setCustomTimer()">Set Timer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report Detail Modal -->
+    <div class="modal" id="reportModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('reportModal')">&times;</button>
+            <h3 id="reportTitle">Session Report</h3>
+            <div id="reportDetails">
+                <!-- Report details will be inserted here -->
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-auth" onclick="closeModal('reportModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application Scripts -->
+    <script src="config.js"></script>
+    <script src="attention-detector.js"></script>
+    <script src="camera-handler.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
