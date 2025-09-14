@@ -101,4 +101,12 @@ For developers, use these console commands:
 
 ## 🏆 Enjoy Productive Work Sessions!  
 
-With **Focus Plus**, you can stay accountable, track your attention, and review reports to boost productivity every day.  
+With **Focus Plus**, you can stay accountable, track your attention, and review reports to boost productivity every day. 
+
+## 👨‍💻 Developers  
+
+Developed with ❤️ by:  
+- **Arnav Tomar**  
+- **Madhav Agarwal** 
+- **Tanushka Bhadouriya** 
+- **Manvi** 
